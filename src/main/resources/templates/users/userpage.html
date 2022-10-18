@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Page</title>
+</head>
+<body>
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Roles</th>
+    </tr>
+    <tr>
+        <td th:utext="${user.getId()}">user</td>
+        <td th:utext="${user.getName()}">user</td>
+        <td th:utext="${user.getRolesToString()}">user</td>
+    </tr>
+</table>
+
+</body>
+</html>
