@@ -21,7 +21,6 @@ public class UserController {
     @GetMapping()
     public String showUserPage(Model model, Principal principal) {
         User user = userService.show(principal.getName());
-        System.out.println(user);
 
         model.addAttribute("user", user);
         return "users/userpage";

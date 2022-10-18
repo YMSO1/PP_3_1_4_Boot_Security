@@ -5,7 +5,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -23,7 +22,7 @@ public class User implements UserDetails {
     @JoinTable(name = "user_role"
             , joinColumns = @JoinColumn(name = "user_id")
             , inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles;
 
     public User() {
     }
@@ -48,8 +47,8 @@ public class User implements UserDetails {
     @Override
     public String getPassword() {
         return password;
-
     }
+
     @Override
     public String getUsername() {
         return name;
@@ -96,14 +95,12 @@ public class User implements UserDetails {
     }
 
     public Set<Role> getRoles() {
-        System.out.println(roles);
         return roles;
     }
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
-
 
     public String getRolesToString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -113,17 +110,6 @@ public class User implements UserDetails {
             delimiter = ", ";
             stringBuilder.append(role.getName());
         }
-        System.out.println(stringBuilder);
         return stringBuilder.toString();
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", roles=" + getRolesToString() +
-                '}';
     }
 }

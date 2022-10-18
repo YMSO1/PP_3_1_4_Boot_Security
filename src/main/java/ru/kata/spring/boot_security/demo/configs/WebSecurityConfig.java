@@ -8,40 +8,32 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.kata.spring.boot_security.demo.services.UserDetService;
+import ru.kata.spring.boot_security.demo.services.UserDetailsServiceImpl;
 
-@EnableWebSecurity    //  Этой аннотацией Включаем безопасность - в ней есть @Configurations
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {   //  Наследуемся от спрингового конфигуратора безопасности
-    private final SuccessUserHandler successUserHandler;  //  объект с настройками - куда переходить для какой роли
-    private final UserDetService userDetService;
+@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    private final SuccessUserHandler successUserHandler;
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
     @Autowired
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserDetService userDetService) {
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserDetailsServiceImpl userDetailsServiceImpl) {
         this.successUserHandler = successUserHandler;
-        this.userDetService = userDetService;
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
     }
 
-    @Override   //  переопределяем метод из конфигуратора настраивая вход и авторизацию
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http                                          // учим приложение не пускать пользователей, куда нельзя
+        http
                 .authorizeRequests()
                 .antMatchers("/admins/**").hasRole("ADMIN")
-                //  везде в папке админс может ползать только юзер с ролью админ
                 .antMatchers("/users/**").hasRole("USER")
-                //  везде в папке юзерс может ползать только юзер с ролью админ либо юзер
                 .antMatchers("/index").permitAll()
-                // на страницу индекс может зайти любой
                 .anyRequest().authenticated()
-                // на все другие страницы только авторизованный пользователь
                 .and()
-                //  настройка аутентификации - если вы ещё не залогины, то вас перекинет сюда при любом запросе,
-                //  требующем логирования
                 .formLogin()
-                //стандартная форма логина
                 .successHandler(successUserHandler)
                 .permitAll()
                 .and()
                 .logout()
-                // стандартный дефолтный логаут по адресу /logout
                 .permitAll();
     }
 
@@ -50,35 +42,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {   //  На
         return NoOpPasswordEncoder.getInstance();
     }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {  // кодирует пароль
-//        return new BCryptPasswordEncoder();
-//    }
-
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider() {  // Мы вводим логин и пароль,
-        // а этот метод проверяет есть ли юзер с такими данными в базе, если есть
-        // - положить в спрингСекьюритиКонтекст
+    public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setPasswordEncoder(passwordEncoder());  // передаём кодировщик,
-        // что бы проверяющий мог проверить закодированные пароли
-        authenticationProvider.setUserDetailsService(userDetService);
-        //  что бы узнать существуют ли юзеры
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        authenticationProvider.setUserDetailsService(userDetailsServiceImpl);
 
         return authenticationProvider;
     }
-
-//    // аутентификация inMemory
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("user")
-//                        .roles("USER")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user);
-//    }
 }

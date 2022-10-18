@@ -5,28 +5,31 @@
     <title>Admin Page</title>
 </head>
 <body>
+
 <table>
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Roles</th>
-        <th>Edit</th>
-        <th>Delete</th>
-    </tr>
-    <tr th:each="user, state : ${users_list}">
-        <td><div><a th:href="@{/admins/{id}(id=${user.getId()})}" th:text="${user.getId()}">user</a></div></td>
-        <td th:utext="${user.getName()}">user</td>
-        <td th:utext="${user.getRolesToString()}">user</td>
-        <td><form th:action="@{/admins/{id}/edit(id=${user.getId()})}">
-            <input type="submit" value="Edit"/>
-        </form> </td>
-        <td><form th:method="delete" th:action="@{/admins/{id}(id=${user.getId()})}">
-            <input type="submit" value="Delete"/>
-        </form></td>
-    </tr>
+<tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th>Roles</th>
+    <th>Edit</th>
+    <th>Delete</th>
+</tr>
+<tr th:each="user, state : ${users_list}">
+    <td><div><a th:href="@{/admins/{id}(id=${user.getId()})}" th:text="${user.getId()}">user</a></div></td>
+    <td th:utext="${user.getName()}">user</td>
+    <td th:utext="${user.getRolesToString()}">user</td>
+    <td><form th:action="@{/admins/{id}/edit(id=${user.getId()})}">
+        <input type="submit" value="Edit"/>
+    </form> </td>
+    <td><form th:method="delete" th:action="@{/admins/{id}(id=${user.getId()})}">
+        <input type="submit" value="Delete"/>
+    </form></td>
+</tr>
 </table>
 <br/>
 <a href="/admins/new">Create new person</a>
+<br/>
+<a href="/logout">Log out</a>
 
 </body>
 </html>
