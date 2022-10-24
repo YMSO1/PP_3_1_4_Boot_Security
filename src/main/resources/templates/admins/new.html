@@ -2,30 +2,94 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+          crossorigin="anonymous">
     <title>New User</title>
 </head>
 <body>
 
-<form th:method="post" th:action="@{/admins}" th:object="${user}">
-    <label for="name">Enter name: </label>
-    <input type="text" th:field="*{name}" id="name"/>
-    <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
-    <br/>
-    <label for="password">Enter password: </label>
-    <input type="text" th:field="*{password}" id="password"/>
-    <div style="color:red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
-    <br/>
-    <label> Role:
-        <select name="roles" class="form-select" required multiple size="2">
-            <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
-        </select>
-    </label>
-    <br/>
-    <br/>
-    <input type="submit" value="Create!"/>
-</form>
-<br/>
-<a href="/logout">Log out</a>
+<div class="container-fluid">
+    <div class="row bg-dark align-items-center">
+        <div class="col-11">
+            <span class="nav navbar-text text-white fs-4">
+                <strong><th:block th:text="${admin.getName()}"></th:block></strong>
+                &nbsp;<nobr>with roles:</nobr>
+                &nbsp;<th:block th:text="${admin.getRolesToString()}"></th:block>
+            </span>
+        </div>
+        <div class="col-1">
+            <ul class="nav navbar-nav float-end">
+                <li class="nav-item">
+                    <form th:action="@{/logout}" th:method="post">
+                        <input type="submit" value="Logout" class="bg-dark form-control-plaintext text-white-50 h5">
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2 bg-white vh-100 p-0"><br>
+            <ul class="nav flex-column nav-pills fs-5">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/admins">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/users">User</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-10 bg-light vh-100"><br>
+            <h1>
+                Admin panel
+            </h1>
+            <div>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admins">Users table</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/admins/new">New User</a>
+                    </li>
+                </ul>
+                <table class="table table-striped table-bordered">
+                    <tbody>
+                    <tr>
+                        <th class="h4 px-4">All users</th>
+                    </tr>
+                    <tr>
+                        <td class="bg-white p-4 d-flex flex-column align-items-center">
+                            <table class="table table-striped">
+                                <form method="POST" th:action="@{/admins}" th:object="${user}">
+                                    <label class="form-label h6" for="name">First name: </label>
+                                    <input class="form-control w-25" type="text" th:field="*{name}" id="name"/>
+                                    <br/>
+                                    <label class="form-label h6" for="password">Password: </label>
+                                    <input class="form-control w-25" type="password" th:field="*{password}" id="password"/>
+                                    <br/>
+                                    <label class="form-label h6">Role: </label>
+                                    <select class="form-control w-25" multiple size="2" id="roles" name="roles" th:field="*{roles}">
+                                        <option th:each="role: ${roles}"
+                                                th:value="${role.getId()}"
+                                                th:selected="${user.getRoles()}">
+                                            <th:block
+                                                    th:text="${role.getName().substring(5)}">
+                                            </th:block>
+                                        </option>
+                                    </select>
+                                    <br/>
+                                    <input type="submit" value="Add new user" class="btn btn-success btn-lg"/>
+                                </form>
+                            </table>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
