@@ -7,7 +7,7 @@
 <body>
 
 <p th:text="${user.getId()}">VALUE</p>
-<p th:text="${user.getName()}">VALUE</p>
+<p th:text="${user.getFirstName()}">VALUE</p>
 <p th:text="${user.getRolesToString()}">VALUE</p>
 <br/>
 <form th:action="@{/admins/{id}/edit(id=${user.getId()})}">

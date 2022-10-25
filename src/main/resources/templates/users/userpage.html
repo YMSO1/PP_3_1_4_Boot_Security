@@ -14,7 +14,7 @@
     <div class="row bg-dark align-items-center">
         <div class="col-11">
             <span class="nav navbar-text text-white fs-4">
-                <strong><th:block th:text="${user.getName()}"></th:block></strong>
+                <strong><th:block th:text="${user.getEmail()}"></th:block></strong>
                 &nbsp;<nobr>with roles:</nobr>
                 &nbsp;<th:block th:text="${user.getRolesToString()}"></th:block>
             </span>
@@ -58,19 +58,19 @@
                                     <thead>
                                     <tr>
                                         <th>ID</th>
-    <!--                                    <th>First name</th>-->
-                                        <th>Name</th>
-    <!--                                    <th>Age</th>-->
-    <!--                                    <th>Email</th>-->
+                                        <th>First name</th>
+                                        <th>Last name</th>
+                                        <th>Age</th>
+                                        <th>Email</th>
                                         <th>Role</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                         <td th:text="${user.getId()}"></td>
-    <!--                                    <td th:text="${logUser.getFirstName()}"></td>-->
-                                        <td th:text="${user.getName()}"></td>
-    <!--                                    <td th:text="${logUser.getAge()}"></td>-->
-    <!--                                    <td th:text="${logUser.getEmail()}"></td>-->
+                                        <td th:text="${user.getFirstName()}"></td>
+                                        <td th:text="${user.getLastName()}"></td>
+                                        <td th:text="${user.getAge()}"></td>
+                                        <td th:text="${user.getEmail()}"></td>
                                         <td th:text="${user.getRolesToString()}"></td>
                                     </tbody>
                                 </table>

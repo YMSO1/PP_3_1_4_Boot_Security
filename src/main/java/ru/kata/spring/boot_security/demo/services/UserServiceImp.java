@@ -30,8 +30,8 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public User show(String name) {
-        Optional<User> foundUser = repository.findByName(name);
+    public User show(String email) {
+        Optional<User> foundUser = repository.findByName(email);
         return foundUser.orElse(null);
     }
 

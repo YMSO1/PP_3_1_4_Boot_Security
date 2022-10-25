@@ -14,7 +14,7 @@
     <div class="row bg-dark align-items-center">
         <div class="col-11">
             <span class="nav navbar-text text-white fs-4">
-                <strong><th:block th:text="${admin.getName()}"></th:block></strong>
+                <strong><th:block th:text="${admin.getEmail()}"></th:block></strong>
                 &nbsp;<nobr>with roles:</nobr>
                 &nbsp;<th:block th:text="${admin.getRolesToString()}"></th:block>
             </span>
@@ -62,8 +62,14 @@
                         <td class="bg-white p-4 d-flex flex-column align-items-center">
                             <table class="table table-striped">
                                 <form method="POST" th:action="@{/admins}" th:object="${user}">
-                                    <label class="form-label h6" for="name">First name: </label>
-                                    <input class="form-control w-25" type="text" th:field="*{name}" id="name"/>
+                                    <label class="form-label h6" for="firstName">First name: </label>
+                                    <input class="form-control w-25" type="text" th:field="*{firstName}" id="firstName"/>
+                                    <br/><label class="form-label h6" for="lastName">Last name: </label>
+                                    <input class="form-control w-25" type="text" th:field="*{lastName}" id="lastName"/>
+                                    <br/><label class="form-label h6" for="age">Age: </label>
+                                    <input class="form-control w-25" type="number" th:field="*{age}" id="age"/>
+                                    <br/><label class="form-label h6" for="email">Email: </label>
+                                    <input class="form-control w-25" type="email" th:field="*{email}" id="email"/>
                                     <br/>
                                     <label class="form-label h6" for="password">Password: </label>
                                     <input class="form-control w-25" type="password" th:field="*{password}" id="password"/>
