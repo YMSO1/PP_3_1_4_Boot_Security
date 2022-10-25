@@ -31,13 +31,6 @@ public class AdminController {
         return "admins/adminpage";
     }
 
-    @GetMapping("/{id}")
-    public String showUser(@PathVariable("id") int id, Model model) {
-
-        model.addAttribute("user", userService.show(id));
-        return "admins/show";
-    }
-
     @GetMapping("/new")
     public String newUser(Model model, Principal principal) {
 
@@ -59,21 +52,6 @@ public class AdminController {
         userService.update(id, user);
         return "redirect:/admins";
     }
-
-//    @GetMapping("/{id}/edit")
-//    public String edit(Model model, @PathVariable("id") int id) {
-//
-//        model.addAttribute("user", userService.show(id));
-//        model.addAttribute("roles", roleService.findAllRoles());
-//        return "admins/edit";
-//    }
-//
-//    @PatchMapping("/{id}")
-//    public String update(@ModelAttribute("user") User user, @PathVariable("id") int id) {
-//
-//        userService.update(id, user);
-//        return "redirect:/admins";
-//    }
 
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
