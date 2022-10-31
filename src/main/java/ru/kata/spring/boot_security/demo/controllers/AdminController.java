@@ -10,53 +10,53 @@ import ru.kata.spring.boot_security.demo.services.UserService;
 
 import java.security.Principal;
 
-@Controller
-@RequestMapping("/admins")
-public class AdminController {
-    private final RoleService roleService;
-    private final UserService userService;
-
-    @Autowired
-    public AdminController(RoleService roleService, UserService userService) {
-        this.roleService = roleService;
-        this.userService = userService;
-    }
-
-    @GetMapping()
-    public String showAdminPage(Model model, Principal principal) {
-
-        model.addAttribute("users_list", userService.showAllUsers());
-        model.addAttribute("user", userService.show(principal.getName()));
-        model.addAttribute("roles", roleService.findAllRoles());
-        return "admins/adminpage";
-    }
-
-    @GetMapping("/new")
-    public String newUser(Model model, Principal principal) {
-
-        model.addAttribute("user", new User());
-        model.addAttribute("admin", userService.show(principal.getName()));
-        model.addAttribute("roles", roleService.findAllRoles());
-        return "admins/new";
-    }
-
-    @PostMapping()
-    public String create(@ModelAttribute("user") User user) {
-
-        userService.save(user);
-        return "redirect:/admins";
-    }
-
-    @PutMapping("/{id}")
-    public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") int id) {
-        userService.update(id, user);
-        return "redirect:/admins";
-    }
-
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") int id) {
-
-        userService.delete(id);
-        return "redirect:/admins";
-    }
-}
+//@Controller
+//@RequestMapping("/admins")
+//public class AdminController {
+//    private final RoleService roleService;
+//    private final UserService userService;
+//
+//    @Autowired
+//    public AdminController(RoleService roleService, UserService userService) {
+//        this.roleService = roleService;
+//        this.userService = userService;
+//    }
+//
+//    @GetMapping()
+//    public String showAdminPage(Model model, Principal principal) {
+//
+//        model.addAttribute("users_list", userService.showAllUsers());
+//        model.addAttribute("user", userService.show(principal.getName()));
+//        model.addAttribute("roles", roleService.findAllRoles());
+//        return "admins/adminpage";
+//    }
+//
+//    @GetMapping("/new")
+//    public String newUser(Model model, Principal principal) {
+//
+//        model.addAttribute("user", new User());
+//        model.addAttribute("admin", userService.show(principal.getName()));
+//        model.addAttribute("roles", roleService.findAllRoles());
+//        return "admins/new";
+//    }
+//
+//    @PostMapping()
+//    public String create(@ModelAttribute("user") User user) {
+//
+//        userService.save(user);
+//        return "redirect:/admins";
+//    }
+//
+//    @PutMapping("/{id}")
+//    public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") int id) {
+//        userService.update(id, user);
+//        return "redirect:/admins";
+//    }
+//
+//    @DeleteMapping("/{id}")
+//    public String delete(@PathVariable("id") int id) {
+//
+//        userService.delete(id);
+//        return "redirect:/admins";
+//    }
+//}

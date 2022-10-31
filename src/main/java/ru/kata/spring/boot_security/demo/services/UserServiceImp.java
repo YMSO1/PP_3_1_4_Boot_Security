@@ -37,8 +37,8 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Transactional
-    public void save(User user) {
-        repository.save(user);
+    public User save(User user) {
+        return repository.save(user);
     }
 
     @Override
@@ -49,8 +49,8 @@ public class UserServiceImp implements UserService {
 
     @Override
     @Transactional
-    public void update(int id, User updateUser) {
+    public User update(int id, User updateUser) {
         updateUser.setId(id);
-        repository.save(updateUser);
+        return repository.save(updateUser);
     }
 }

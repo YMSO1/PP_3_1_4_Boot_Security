@@ -12,9 +12,9 @@ public interface UserService {
 
     User show(String name);
 
-    void save(User user);
+    User save(User user);
 
     void delete(int id);
 
-    void update(int id, User user);
+    User update(int id, User user);
 }
