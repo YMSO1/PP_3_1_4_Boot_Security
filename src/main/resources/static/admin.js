@@ -1,11 +1,6 @@
 const requestURL = 'http://localhost:8080/api/users';
-
 const usersTableNavLink = document.getElementById("horizontal_navigation-users_table");
-
 const allUsersTable = document.querySelector(".all-users-table");
-
-
-//Users table
 
 const fillUsers = (users) => {
     if (users.length > 0) {
@@ -18,8 +13,7 @@ const fillUsers = (users) => {
                     <td> ${user.lastName} </td>
                     <td> ${user.age} </td>
                     <td> ${user.email} </td>
-                    <td> ${user.enabled} </td>
-                    <td> ${user.roles.map((role) => role.name === "ROLE_USER" ? " User" : " Admin")} </td>
+                    <td> ${user.roles.map(role => " " + role.name.substring(5))} </td>
                     <td> <button type="button" class="btn btn-info" id="btn-edit-modal-call" data-toggle="modal" data-target="modal-edit"
                     data-id="${user.id}">Edit</button></td>
                     <td> <button type="button" class="btn btn-danger" id="btn-delete-modal-call" 
@@ -30,8 +24,6 @@ const fillUsers = (users) => {
         allUsersTable.innerHTML = temp;
     }
 }
-
-
 
 function getAllUsers () {
     fetch(requestURL, {
@@ -48,12 +40,7 @@ function getAllUsers () {
 
 getAllUsers();
 
-//addNewUser
-//Form for new user
-
 const addUserForm = document.querySelector(".add-user-form");
-
-// form for NEW user
 
 const FormFirstName = document.getElementById("add-user-form-firstName");
 const FormLastName = document.getElementById("add-user-form-lastName");
@@ -61,10 +48,8 @@ const FormAge = document.getElementById("add-user-form-age");
 const FormEmail = document.getElementById("add-user-form-email");
 const FormPassword = document.getElementById("add-user-form-password");
 const FormRoles = document.getElementById("add-user-form-roles");
-// submit
 const addButtonSubmit = document.getElementById("add-btn-submit");
 
-//role
 function getRolesFromAddUserForm() {
     let roles = Array.from(FormRoles.selectedOptions)
         .map(option => option.value);
@@ -72,14 +57,14 @@ function getRolesFromAddUserForm() {
     if (roles.includes("1")) {
         let role1 = {
             id: 1,
-            name: "Admin"
+            name: "ADMIN"
         }
         rolesToAdd.push(role1);
     }
     if (roles.includes("2")) {
         let role2 = {
             id: 2,
-            name: "User"
+            name: "USER"
         }
         rolesToAdd.push(role2);
     }
@@ -108,7 +93,6 @@ addUserForm.addEventListener("submit", (e) => {
         });
 })
 
-//edit
 const modalEditExitBtn = document.getElementById("exit_btn-modal-edit");
 const modalEditCloseBtn = document.getElementById("close_btn-modal-edit");
 const modalEditSubmitBtn = document.getElementById("submit_btn-modal-edit");
@@ -116,44 +100,37 @@ const editUsersRoles = document.getElementById("edit-rolesSelect");
 const editRoleAdminOption = document.getElementById("edit-role_admin");
 const editRoleUserOption = document.getElementById("edit-role_user");
 
-//delete
 const deleteRoleAdminOption = document.getElementById("delete-role_admin");
 const deleteRoleUserOption = document.getElementById("delete-role_user");
 const modalDeleteSubmitBtn = document.getElementById("submit_btn-modal-delete");
 const modalDeleteExitBtn = document.getElementById("exit_btn-modal-delete");
 const modalDeleteCloseBtn = document.getElementById("close_btn-modal-delete");
 
-
-
-
 function getRolesFromEditUserForm() {
     let roles = Array.from(editUsersRoles.selectedOptions)
         .map(option => option.value);
     let rolesToEdit = [];
-    if (roles.includes("2")) {
+    if (roles.includes("1")) {
         let role1 = {
-            id: 2,
-            name: "Admin"
+            id: 1,
+            name: "ADMIN"
         }
         rolesToEdit.push(role1);
     }
-    if (roles.includes("1")) {
+    if (roles.includes("2")) {
         let role2 = {
-            id: 1,
-            name: "User"
+            id: 2,
+            name: "USER"
         }
         rolesToEdit.push(role2);
     }
     return rolesToEdit;
 }
 
-//tracking submit click Edit/Delete
 allUsersTable.addEventListener("click", e => {
     e.preventDefault();
     let delButtonIsPressed = e.target.id === 'btn-delete-modal-call';
     let editButtonIsPressed = e.target.id === 'btn-edit-modal-call';
-
-//getting data for DELETE user
 
     const deleteUsersId = document.getElementById("delete-id")
     const deleteUsersFirstName = document.getElementById("delete-firstName")
@@ -203,8 +180,6 @@ allUsersTable.addEventListener("click", e => {
             location.reload();
         })
     }
-
-//getting data for EDIT user
 
     const editUsersId = document.getElementById("edit-id");
     const editUsersFirstName = document.getElementById("edit-firstName");
@@ -271,7 +246,6 @@ allUsersTable.addEventListener("click", e => {
     }
 })
 
-//close modal window edit
 let removeSelectedRolesFromEditDoc = () => {
     if (editRoleAdminOption.hasAttribute('selected')) {
         editRoleAdminOption.removeAttribute('selected')
@@ -289,7 +263,6 @@ modalEditCloseBtn.addEventListener("click", e => {
     removeSelectedRolesFromEditDoc();
 })
 
-//close modal window delete
 let removeSelectedRolesFromDeleteDoc = () => {
     if (deleteRoleAdminOption.hasAttribute('selected')) {
         deleteRoleAdminOption.removeAttribute('selected')
@@ -306,9 +279,6 @@ modalDeleteCloseBtn.addEventListener("click", e => {
     e.preventDefault();
     removeSelectedRolesFromDeleteDoc();
 })
-
-
-//information about SOLO USER who was login
 
 const userPanelData = document.getElementById("user_panel-data");
 const authorisedUserData = document.getElementById("authorised_user-data");
@@ -330,11 +300,11 @@ let currentUser = () => {
                         <td> ${user.lastName} </td>
                         <td> ${user.age} </td>
                         <td> ${user.email} </td>
-                        <td> ${user.roles.map((role) => role.name === "ROLE_USER" ? " User" : " Admin")} </td>
+                        <td> ${user.roles.map(role => " " + role.name.substring(5))} </td>
                     </tr>
                 `
                 authorisedUserData.innerHTML = `
-                    <p class="d-inline font-weight-bold">${user.email} With role ${user.roles.map((role) => role.name === "ROLE_USER" ? " User" : " Admin")}</p>`
+                    <p class="d-inline font-weight-bold"><b>${user.email}</b> with roles ${user.roles.map(role => " " + role.name.substring(5))}</p>`
             }
         })
 }
